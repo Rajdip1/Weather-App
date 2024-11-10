@@ -7,6 +7,12 @@ android {
     namespace = "com.example.weatherapp"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding {
+            enable = true
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.weatherapp"
         minSdk = 24
@@ -48,5 +54,7 @@ dependencies {
 
     implementation ("com.airbnb.android:lottie:6.6.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.2.0") // or latest version
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
 
 }
