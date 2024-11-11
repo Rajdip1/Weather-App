@@ -1,10 +1,12 @@
 package com.example.weatherapp
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.weatherapp.databinding.ActivityMainBinding
@@ -13,6 +15,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 // eaec2efeced9d6d17ac9f467026a8de8
 
@@ -24,17 +29,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        showWeatherData()
+        showWeatherData("jaipur")
+        searchCity()
     }
 
-    private fun showWeatherData() {
+    private fun searchCity() {
+        val searchView = binding.searchView
+        searchView.setOnQueryTextListener(object  : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    showWeatherData(query)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+              return true
+            }
+
+        })
+    }
+
+    private fun showWeatherData(cityName : String) {
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(ApiInterface::class.java)
 
-        val response = retrofit.getWeatherData("jaipur","eaec2efeced9d6d17ac9f467026a8de8","matric")
+        val response = retrofit.getWeatherData(cityName,"eaec2efeced9d6d17ac9f467026a8de8","matric")
         response.enqueue(object : Callback<WeatherApp>{
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<WeatherApp>, response: Response<WeatherApp>) {
                 val responseBody = response.body()
                 if(response.isSuccessful && responseBody != null) {
@@ -58,6 +83,9 @@ class MainActivity : AppCompatActivity() {
                     binding.sunrise.text = "$sunRise"
                     binding.sunset.text = "$sunSet"
                     binding.seaLevel.text = "$seaLevel hPa"
+                    binding.day.text = dayName(System.currentTimeMillis())
+                    binding.date.text = date()
+                    binding.cityName.text = "$cityName"
 
                 }
             }
@@ -67,5 +95,15 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    fun dayName(timestamp: Long) : String {
+        val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        return sdf.format(Date())
+    }
+
+    fun date(): String {
+        val sdf = SimpleDateFormat("EEEE", Locale.getDefault())
+        return sdf.format(Date())
     }
 }
