@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -7,10 +10,17 @@ android {
     namespace = "com.example.weatherapp"
     compileSdk = 34
 
+    val file = rootProject.file("local.properties")
+    val properties = Properties()
+    properties.load(FileInputStream(file))
+
+
     buildFeatures {
         viewBinding {
             enable = true
         }
+
+        buildConfig = true
     }
 
     defaultConfig {
@@ -20,6 +30,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String","weatherApiKeySafe",properties.getProperty("weatherApiKey"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

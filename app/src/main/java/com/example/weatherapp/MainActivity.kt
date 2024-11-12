@@ -14,8 +14,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// eaec2efeced9d6d17ac9f467026a8de8
-
 class MainActivity : AppCompatActivity() {
     private  val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             .baseUrl("https://api.openweathermap.org/data/2.5/")
             .build().create(ApiInterface::class.java)
 
-        val response = retrofit.getWeatherData(cityName,"eaec2efeced9d6d17ac9f467026a8de8","matric")
+        val response = retrofit.getWeatherData(cityName,"eaec2efeced9d6d17ac9f467026a8de8","metric")
         response.enqueue(object : Callback<WeatherApp>{
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<WeatherApp>, response: Response<WeatherApp>) {
@@ -82,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                     binding.date.text = date()
                     binding.cityName.text = "$cityName"
 
-                    changeImgAccordingWeatherConditions(condition)
+                    changeImgAccordingWeatherCondtions(condition)
 
                 }
             }
@@ -92,62 +90,62 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-//    private fun changeImgAccordingWeatherCondtions(condition: String) {
-//        when (condition) {
-//            "Clear Sky","Sunny","Clear" -> {
-//                binding.root.setBackgroundResource(R.drawable.sunny_background)
-//                binding.lottieAnimationView.setAnimation(R.raw.sun)
-//            }
-//            "Partly Clouds","Clouds","Overcast","Mist","Foggy" -> {
-//                binding.root.setBackgroundResource(R.drawable.colud_background)
-//                binding.lottieAnimationView.setAnimation(R.raw.cloud)
-//            }
-//            "Light Rain","Drizzle","Moderate Rain","Showers","Heavy Rain" -> {
-//                binding.root.setBackgroundResource(R.drawable.rain_background)
-//                binding.lottieAnimationView.setAnimation(R.raw.rain)
-//            }
-//            "Light Snow","Moderate Snow","Heavy Snow","Blizzard" -> {
-//                binding.root.setBackgroundResource(R.drawable.colud_background)
-//                binding.lottieAnimationView.setAnimation(R.raw.cloud)
-//            }
-//            else ->{
-//                binding.root.setBackgroundResource(R.drawable.sunny_background)
-//                binding.lottieAnimationView.setAnimation(R.raw.sun)
-//            }
-//        }
-//        binding.lottieAnimationView.playAnimation()
-//    }
-private fun changeImgAccordingWeatherConditions(condition: String) {
-    val backgroundResource: Int
-    val animationResource: Int
-
-    when (condition) {
-        "Clear Sky", "Sunny", "Clear" -> {
-            backgroundResource = R.drawable.sunny_background
-            animationResource = R.raw.sun
+    private fun changeImgAccordingWeatherCondtions(condition: String) {
+        when (condition) {
+            "Clear Sky","Sunny","Clear" -> {
+                binding.root.setBackgroundResource(R.drawable.sunny_background)
+                binding.lottieAnimationView.setAnimation(R.raw.sun)
+            }
+            "Partly Clouds","Clouds","Overcast","Mist","Foggy" -> {
+                binding.root.setBackgroundResource(R.drawable.colud_background)
+                binding.lottieAnimationView.setAnimation(R.raw.cloud)
+            }
+            "Light Rain","Drizzle","Moderate Rain","Showers","Heavy Rain" -> {
+                binding.root.setBackgroundResource(R.drawable.rain_background)
+                binding.lottieAnimationView.setAnimation(R.raw.rain)
+            }
+            "Light Snow","Moderate Snow","Heavy Snow","Blizzard" -> {
+                binding.root.setBackgroundResource(R.drawable.colud_background)
+                binding.lottieAnimationView.setAnimation(R.raw.cloud)
+            }
+            else ->{
+                binding.root.setBackgroundResource(R.drawable.sunny_background)
+                binding.lottieAnimationView.setAnimation(R.raw.sun)
+            }
         }
-        "Partly Cloudy", "Clouds", "Overcast", "Mist", "Foggy" -> {
-            backgroundResource = R.drawable.colud_background
-            animationResource = R.raw.cloud
-        }
-        "Light Rain", "Drizzle", "Moderate Rain", "Showers", "Heavy Rain" -> {
-            backgroundResource = R.drawable.rain_background
-            animationResource = R.raw.rain
-        }
-        "Light Snow", "Moderate Snow", "Heavy Snow", "Blizzard" -> {
-            backgroundResource = R.drawable.snow_background
-            animationResource = R.raw.snow
-        }
-        else -> {
-            backgroundResource = R.drawable.sunny_background
-            animationResource = R.raw.sun
-        }
+        binding.lottieAnimationView.playAnimation()
     }
-
-    binding.root.setBackgroundResource(backgroundResource)
-    binding.lottieAnimationView.setAnimation(animationResource)
-    binding.lottieAnimationView.playAnimation()
-}
+//private fun changeImgAccordingWeatherConditions(condition: String) {
+//    val backgroundResource: Int
+//    val animationResource: Int
+//
+//    when (condition) {
+//        "Clear Sky", "Sunny", "Clear" -> {
+//            backgroundResource = R.drawable.sunny_background
+//            animationResource = R.raw.sun
+//        }
+//        "Partly Cloudy", "Clouds", "Overcast", "Mist", "Foggy" -> {
+//            backgroundResource = R.drawable.colud_background
+//            animationResource = R.raw.cloud
+//        }
+//        "Light Rain", "Drizzle", "Moderate Rain", "Showers", "Heavy Rain" -> {
+//            backgroundResource = R.drawable.rain_background
+//            animationResource = R.raw.rain
+//        }
+//        "Light Snow", "Moderate Snow", "Heavy Snow", "Blizzard" -> {
+//            backgroundResource = R.drawable.snow_background
+//            animationResource = R.raw.snow
+//        }
+//        else -> {
+//            backgroundResource = R.drawable.sunny_background
+//            animationResource = R.raw.sun
+//        }
+//    }
+//
+//    binding.root.setBackgroundResource(backgroundResource)
+//    binding.lottieAnimationView.setAnimation(animationResource)
+//    binding.lottieAnimationView.playAnimation()
+//}
 
 
     fun dayName(timestamp: Long) : String {
